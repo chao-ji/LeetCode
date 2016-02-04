@@ -6,7 +6,7 @@ public class LC47
 	{
 	}
 
-	// Permutations II
+	// 47. Permutations II
 	static List<List<Integer>> permuteUnique(int[] nums)
 	{
 		Arrays.sort(nums);
