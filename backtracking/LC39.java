@@ -4,37 +4,51 @@ public class LC39
 {
 	public static void main(String[] args)
 	{
+		int[] candidates = {2, 3, 6 ,7};
+		System.out.println(combinationSum(candidates, 7));
 	}
 
 	// 39. Combination Sum
 	static List<List<Integer>> combinationSum(int[] candidates, int target)
 	{
+		List<List<Integer>> list = new ArrayList<List<Integer>>();
 		Arrays.sort(candidates);
-		return recursive(candidates, 0, target);
+		int[] sum = new int[1];
+		for (int i = 0; i < candidates.length; i++)
+		{
+			List<Integer> path = new ArrayList<Integer>();
+			path.add(candidates[i]);
+			sum[0] += candidates[i];
+			recursive(list, path, candidates, i, sum, target);
+		}
+
+		return list;
 	}
 
-	static List<List<Integer>> recursive(int[] candidates, int start, int target)
+	static void recursive(List<List<Integer>> list, List<Integer> path, int[] candidates, int start, int[] sum, int target)
 	{
-		List<List<Integer>> list = new ArrayList<List<Integer>>();
+		if (path.isEmpty())
+			return ;
 
-		if (target == 0)
+		if (sum[0] >= target)
 		{
-			list.add(new ArrayList<Integer>());
-			return list;
+			if (sum[0] == target)
+			{
+				list.add(new ArrayList<Integer>());
+				list.get(list.size() - 1).addAll(path);
+			}
+			sum[0] -= path.get(path.size() - 1);
+			path.remove(path.size() - 1);
+			return ;
 		}
 
 		for (int i = start; i < candidates.length; i++)
-			if (candidates[i] <= target)
-			{
-				List<List<Integer>> sub = recursive(candidates, i, target - candidates[i]);
-				for (int j = 0; j < sub.size(); j++)
-				{
-					List<Integer> combination = new ArrayList<Integer>();
-					combination.add(candidates[i]);
-					combination.addAll(sub.get(j));
-					list.add(combination);
-				}
-			}
-		return list;        
+		{
+			path.add(candidates[i]);
+			sum[0] += candidates[i];
+			recursive(list, path, candidates, i, sum, target);
+		}
+		sum[0] -= path.get(path.size() - 1);
+		path.remove(path.size() - 1);
 	}
 }
