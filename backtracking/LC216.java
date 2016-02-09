@@ -9,33 +9,43 @@ public class LC216
 	// 216. Combination Sum III
 	static List<List<Integer>> combinationSum3(int k, int n)
 	{
-		return combinationSum3(k, n, 1);
+		List<List<Integer>> list = new ArrayList<List<Integer>>();
+		int[] sum = new int[1];
+		for (int i = 1; i <= 9; i++)
+		{
+			List<Integer> path = new ArrayList<Integer>();
+			path.add(i);
+			sum[0] += i;
+			recursive(list, path, k, n, sum);
+		}
+		return list;
 	}
 
-	static List<List<Integer>> combinationSum3(int k, int n, int s)
+	static void recursive(List<List<Integer>> list, List<Integer> path, int k, int n, int[] sum)
 	{
-		List<List<Integer>> list = new ArrayList<List<Integer>>();
-		if (k == 1)
+		if (path.isEmpty())
+			return ;
+		if (path.size() == k)
 		{
-			if (n >= s && n <= 9)
+			if (sum[0] == n)
 			{
 				list.add(new ArrayList<Integer>());
-				list.get(0).add(n);
+				list.get(list.size() - 1).addAll(path);
 			}
-			return list;
+			sum[0] -= path.get(path.size() - 1);
+			path.remove(path.size() - 1);
+			return ;
 		}
-		for (int i = s; i <= 9; i++)
-			if (i < n)
-			{
-				List<List<Integer>> sub = combinationSum3(k - 1, n - i, i + 1);
-				for (int j = 0; j < sub.size(); j++)
-				{
-					List<Integer> p = new ArrayList<Integer>();
-					p.add(i);
-					p.addAll(sub.get(j));
-					list.add(p);
-				}
-			}
-		return list;    
+
+		int last = path.get(path.size() - 1);
+		for (int i = last + 1; i <= 9; i++)
+		{
+			path.add(i);
+			sum[0] += i;
+			recursive(list, path, k, n, sum);
+		}
+
+		sum[0] -= path.get(path.size() - 1);
+		path.remove(path.size() - 1);
 	}
 }
