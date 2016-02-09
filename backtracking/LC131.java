@@ -3,7 +3,6 @@ public class LC131
 {
 	public static void main(String[] args)
 	{
-		System.out.println(partition("seeslaveidemonstrateyetartsnomedievalsees"));
 	}
 
 	// 131. Palindrome Partitioning
