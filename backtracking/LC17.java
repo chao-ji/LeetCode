@@ -4,7 +4,6 @@ public class LC17
 {
 	public static void main(String[] args)
 	{
-		System.out.println(letterCombinations("23"));
 	}
 
 	// 17. Letter Combinations of a Phone Number	
