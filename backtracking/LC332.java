@@ -12,29 +12,29 @@ public class LC332
 		List<String> list = new ArrayList<String>();
 		if (tickets.length == 0)
 			return list;
-		boolean[] taken = new boolean[tickets.length];
 		Comparator<String[]> c = new MyComparator();
 		Arrays.sort(tickets, c);
 		list.add("JFK");
-		recursive(list, "JFK", taken, tickets);
+		recursive(list, "JFK", tickets);
 		return list;
 	}
 
-	static boolean recursive(List<String> list, String begin, boolean[] taken, String[][] tickets)
+	static boolean recursive(List<String> list, String begin, String[][] tickets)
 	{
 		if (list.size() == tickets.length + 1)
 			return true;
 
 		for (int i = 0; i < tickets.length; i++)
-			if (taken[i] == false && tickets[i][0].equals(begin))
+			if (!tickets[i][0].isEmpty() && tickets[i][0].equals(begin))
 			{
 				list.add(tickets[i][1]);
-				taken[i] = true;
-				if (recursive(list, tickets[i][1], taken, tickets))
+				String hold = tickets[i][0];
+				tickets[i][0] = "";
+				if (recursive(list, tickets[i][1], tickets))
 					return true;
 				else
 				{
-					taken[i] = false;
+					tickets[i][0] = hold;
 					list.remove(list.size() - 1);
 				}
 			}
