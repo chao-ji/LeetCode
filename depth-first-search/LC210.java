@@ -15,35 +15,38 @@ public class LC210
 		for (int i = 0; i < prerequisites.length; i++)
 			edges.get(prerequisites[i][0]).add(prerequisites[i][1]);
 
+		boolean[] explored = new boolean[numCourses];
 		Deque<Integer> stack = new ArrayDeque<Integer>();
-		Set<Integer> visited = new HashSet<Integer>();
-
 		for (int i = 0; i < numCourses; i++)
 		{
-			HashSet<Integer> cycle = new HashSet<Integer>();
-			if (recursive(i, edges, visited, cycle, stack) == false)
+			boolean[] path = new boolean[numCourses];
+			if (!explored[i] && hasCycle(i, edges, path, explored, stack))
 				return new int[0];
 		}
-		int[] order = new int[numCourses];
+
 		int i = 0;
+		int[] order = new int[numCourses];
 		while (!stack.isEmpty())
 			order[i++] = stack.removeFirst();
-		return order;    
+		return order;
 	}
 
-	static boolean recursive(int node, List<List<Integer>> edges, Set<Integer> visited, Set<Integer> cycle, Deque<Integer> stack)
+	static boolean hasCycle(int root, List<List<Integer>> edges, boolean[] path, boolean[] explored, Deque<Integer> stack)
 	{
-		if (visited.contains(node))
-			return true;
-		if (cycle.contains(node))
+		if (explored[root] == true)
 			return false;
-		cycle.add(node);    
+		if (path[root] == true)
+			return true;
 
-		for (int i = 0; i < edges.get(node).size(); i++)
-			if (recursive(edges.get(node).get(i), edges, visited, cycle, stack) == false)
-				return false;
-		visited.add(node);
-		stack.addLast(node);
+		path[root] = true;
+		for (int i = 0; i < edges.get(root).size(); i++)
+			if (hasCycle(edges.get(root).get(i), edges, path, explored, stack))
 		return true;
+
+		explored[root] = true;
+		path[root] = false;
+		stack.addLast(root);
+
+		return false;
 	}
 }
