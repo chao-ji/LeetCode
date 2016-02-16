@@ -15,26 +15,31 @@ public class LC207
 		for (int i = 0; i < prerequisites.length; i++)
 			edges.get(prerequisites[i][0]).add(prerequisites[i][1]);
 
-		boolean[] visited = new boolean[numCourses];    
+		boolean[] explored = new boolean[numCourses];
 		for (int i = 0; i < numCourses; i++)
 		{
-			Set<Integer> path = new HashSet<Integer>();
-			if (!visited[i] && hasCycle(i, edges, path, visited))
+			boolean[] path = new boolean[numCourses];
+			if (!explored[i] && hasCycle(i, edges, path, explored))
 				return false;
 		}
+
 		return true;
 	}
 
-	static boolean hasCycle(int root, List<List<Integer>> edges, Set<Integer> path, boolean[] visited)
+	static boolean hasCycle(int root, List<List<Integer>> edges, boolean[] path, boolean[] explored)
 	{
-		visited[root] = true;
-		if (path.contains(root))
+		if (explored[root] == true)
+			return false;
+		if (path[root] == true)
 			return true;
-		path.add(root);
+
+		path[root] = true;
 		for (int i = 0; i < edges.get(root).size(); i++)
-			if (hasCycle(edges.get(root).get(i), edges, path, visited))
+			if (hasCycle(edges.get(root).get(i), edges, path, explored))
 				return true;
-		path.remove(root);
-		return false;        
+		explored[root] = true;
+		path[root] = false;
+
+		return false;
 	}
 }
