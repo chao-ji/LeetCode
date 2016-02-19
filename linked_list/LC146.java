@@ -1,4 +1,12 @@
-public class LRUCache
+public java.util.*;
+public class LC146
+{
+	public static void main(String[] args)
+	{
+	}
+}
+
+class LRUCache
 {
 	int size;
 	int count;
