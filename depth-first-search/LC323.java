@@ -6,6 +6,7 @@ public class LC323
 	{
 	}
 
+	// 323. Number of Connected Components in an Undirected Graph
 	static int countComponents(int n, int[][] edges)
 	{
 		List<List<Integer>> adj = new ArrayList<List<Integer>>();
