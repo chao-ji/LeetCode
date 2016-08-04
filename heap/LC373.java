@@ -12,34 +12,43 @@ public class LC373
 		List<int[]> list = new ArrayList<int[]>();
 		if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0)
 			return list;
+            
+		PriorityQueue<Tuple> heap = new PriorityQueue<Tuple>();
 
-		PriorityQueue<String> heap = new PriorityQueue<String>(k, new DataComparator());
 		for (int i = 0; i < nums1.length; i++)
-			heap.add(Integer.toString(nums1[i] + nums2[0]) + ":" + Integer.toString(i) + ":0");
-
+			heap.add(new Tuple(i, 0, nums1[i] + nums2[0]));
+            
 		for (; k > 0 && !heap.isEmpty(); k--)
 		{
-			String[] csv = heap.poll().split(":");
-			int i = Integer.parseInt(csv[1]);
-			int j = Integer.parseInt(csv[2]);
+			Tuple tuple = heap.poll();
+			int i = tuple.i;
+			int j = tuple.j;
 			int[] pair = {nums1[i], nums2[j]};
 			list.add(pair);
-
+            
 			if (j < nums2.length - 1)
-				heap.add(Integer.toString(nums1[i] + nums2[j + 1]) + ":" + Integer.toString(i) + ":" + Integer.toString(j + 1));
+				heap.add(new Tuple(i, j + 1, nums1[i] + nums2[j + 1]));
 		}
-
+        
 		return list;
 	}
 
-	static class DataComparator implements Comparator<String>
+	static class Tuple implements Comparable<Tuple>
 	{
-		public int compare(String s1, String s2)
+		int i;
+		int j;
+		int val;
+        
+		Tuple(int i, int j, int val)
 		{
-			String[] csv1 = s1.split(":");
-			String[] csv2 = s2.split(":");
-
-			return Integer.parseInt(csv1[0]) - Integer.parseInt(csv2[0]);
+			this.i = i;
+			this.j = j;
+			this.val = val;
+		}
+        
+		public int compareTo(Tuple tuple)
+		{
+			return this.val - tuple.val;
 		}
 	}
 }
