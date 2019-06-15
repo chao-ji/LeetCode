@@ -34,6 +34,38 @@ The root-to-leaf path 4->9->1 represents the number 491.
 The root-to-leaf path 4->0 represents the number 40.
 Therefore, sum = 495 + 491 + 40 = 1026.
 """
+# Solution 0, backtrack
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+  def sumNumbers(self, root):
+    """
+    :type root: TreeNode
+    :rtype: int
+    """
+    if not root:
+      return 0
+    
+    total = [0]
+    self.backtrack(root.val, total, root)
+    return total[0]
+    
+  def backtrack(self, curr, total, root):
+    if root.left or root.right:
+      if root.left:
+        self.backtrack(curr * 10 + root.left.val, total, root.left)
+      if root.right:
+        self.backtrack(curr * 10 + root.right.val, total, root.right)
+      return
+    
+    total[0] += curr
+
+
 # Solution 1, Recusion preorder traversal
 
 # Definition for a binary tree node.

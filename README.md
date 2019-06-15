@@ -166,6 +166,8 @@
 
 **↳1-Dimensional**
 
+[39. Combination Sum](python/dp/1d/lc39.py)
+
 [123. Best Time to Buy and Sell Stock III](python/dp/1d/lc123.py)
 
 [131. Palindrome Partitioning](python/dp/1d/lc131.py)
@@ -297,7 +299,6 @@
 
 [17. Letter Combinations of a Phone Number](python/recursion/lc17.py)
 
-[39. Combination Sum](python/recursion/lc39.py)
 
 [40. Combination Sum II](python/recursion/lc40.py)
 

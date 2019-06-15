@@ -26,6 +26,56 @@ A solution set is:
   [3,5]
 ]
 """
+# Solution 1
+# DP
+# O(NT^2): `N`: number of coins, `T`: target
+
+class Solution(object):
+  def combinationSum(self, candidates, target):
+    """
+    :type candidates: List[int]
+    :type target: int
+    :rtype: List[List[int]]
+    """
+    # Intuition: Dynamic Programming
+    
+    # Typicall Knapsack/coin change problem. 
+    
+    # 1. Unlimited supply in each denomination 
+    # 2. Unlimited total number of coins
+    # 3. Results must be COMBINATIONS rather than PERMUTATION, 
+    #   so 1, 1, 2 == 1, 2, 1
+    
+    
+    # Since duplicate combinations are not allowed, we can incrementally expand
+    # our set of coins.
+    
+    # For `candidates[:j]`, we update `dp[1]`, ..., `dp[target]` using the additional
+    # coin `candidates[j - 1]` that becomes available.
+    
+    
+    # `dp[i]` = list of combinations (list) of numbers that add up to `i`
+    dp = [[] for _ in range(target + 1)]
+    # `dp[0]` = list of empty list
+    dp[0] = [[]]
+    
+    for j in range(len(candidates)):
+      # Loop invariant: 
+      # At the start of each OUTER for loop, `dp[1]`, ..., `dp[target]` each contains
+      # the list of combinations that add up to 1, ..., `target`, using coins in the 
+      # set `candidates[:j]` (i.e. not including the current coin `candidates[j]`)
+      for i in range(1, target + 1):
+        if i >= candidates[j]:
+          dp[i].extend([combination + [candidates[j]] for combination in dp[i - candidates[j]]])
+      
+      # At the each of each OUTER for loop, `dp[1]`, ..., `dp[target]` have been 
+      # updated to include the combinations that uses the newly available coin 
+      # `candidates[j]`
+      
+    return dp[-1]
+
+# Solution 2
+# Recursion
 class Solution(object):
   def combinationSum(self, candidates, target):
     """
